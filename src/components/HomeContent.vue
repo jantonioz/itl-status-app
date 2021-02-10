@@ -59,12 +59,6 @@ export default {
 			kardex: 'getKardex',
 		}),
 	},
-	async mounted() {
-		if (this.user.username) {
-			console.log(new Date().toISOString(), 'getStatus')
-			await this.$store.dispatch('user/getStatus', this.user)
-		}
-	},
 	watch: {
 		user(newUser) {
 			if (newUser.username && !this.kardex.length) {
