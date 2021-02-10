@@ -1,26 +1,23 @@
 <template>
-	<v-app-bar app color="primary" dark>
+	<v-app-bar app color="primary" dark dense>
 		<v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
-		<div class="d-flex align-center">
-			<v-img
-				alt="TECNM logo"
-				class="tecnm-logo"
-				contain
-				src="../assets/tecnm.png"
-				transition="scale-transition"
-				height="48"
-				width="80"
-			/>
-		</div>
-		<v-app-bar-title class="ml-3">{{ title }}</v-app-bar-title>
+
+		<v-row justify="start">
+			<v-app-bar-title class="ml-5 text-center" style="overflow:unset" dense>
+				{{ title }}
+			</v-app-bar-title>
+		</v-row>
 
 		<v-spacer></v-spacer>
-		<v-btn href="/login" target="_blank" text v-if="!user.name">
+
+		<AppbarMenuAccount />
+
+		<v-btn href="/login" target="_blank" text v-if="!user.username">
 			<span class="mr-2">Iniciar sesión</span>
 			<v-icon>mdi-login</v-icon>
 		</v-btn>
 
-		<v-btn @click="logout" target="_blank" text v-if="user.name" dense>
+		<v-btn @click="logout" target="_blank" text v-if="user.username" dense>
 			<v-icon>mdi-logout</v-icon>
 		</v-btn>
 	</v-app-bar>
@@ -28,7 +25,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import AppbarMenuAccount from './AppbarMenuAccount'
+
 export default {
+	components: {
+		AppbarMenuAccount,
+	},
 	props: {
 		title: String,
 	},
@@ -37,8 +39,15 @@ export default {
 			user: 'getUser',
 		}),
 	},
-	data: () => ({
-	}),
+	data: () => ({}),
+	methods: {
+		toggleDrawer() {
+			return true
+		},
+		logout() {
+			
+		}
+	},
 }
 </script>
 
@@ -47,5 +56,8 @@ export default {
 	opacity: 1;
 	filter: invert(100%) sepia(5%) saturate(5%) hue-rotate(55deg) brightness(113%)
 		contrast(100%);
+}
+.v-app-bar-title__content {
+	overflow: unset;
 }
 </style>

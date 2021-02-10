@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<Appbar title="Inicio" v-if="user.name" />
+		<Appbar title="Inicio" v-if="user.username" />
 
 		<v-main>
 			<router-view></router-view>
@@ -24,7 +24,6 @@ export default {
 		}),
 	},
 	data: () => ({
-		user: {},
 	}),
 }
 </script>
