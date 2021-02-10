@@ -63,8 +63,10 @@ export default {
 	}),
 	methods: {
 		login: async function() {
-			this.$store.dispatch('user/login', this.credentials)
-			this.$store.user = this.credentials
+			const user = await this.$store.dispatch('user/login', this.credentials)
+			console.log('login', user)
+			await this.$store.dispatch('user/getStatus', user)
+			this.$store.user = user
 			this.$router.push('/')
 		},
 		register() {
