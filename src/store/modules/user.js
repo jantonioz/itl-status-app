@@ -1,5 +1,9 @@
+import API from '../../api/index'
+
 const state = () => ({
 	user: {},
+	kardex: [],
+	carga: [],
 	token: null,
 })
 
@@ -10,6 +14,12 @@ const getters = {
 	getUser: (state) => {
 		return state.user || {}
 	},
+	getKardex: (state) => {
+		return state.kardex
+	},
+	getCarga: (state) => {
+		return state.carga
+	},
 	getToken: (state) => {
 		return state.token
 	},
@@ -18,45 +28,38 @@ const getters = {
 const actions = {
 	async login({ commit }, { username, password }) {
 		try {
-			commit('setUser', { username, password, name: username })
-			return username
+			const user = await API.login({ username, password })
+			commit('setUser', user)
+			commit('setToken', user.sessionId)
+			return user
 		} catch (error) {
 			commit('setUser', {})
 			throw error
 		}
 	},
-	async register({ commit }, credentials) {
+	async register({ commit }, { email, username, password }) {
 		try {
-			/* 	const result = await api.register(credentials)
-			const { user, token } = await api.login(
-				credentials.username,
-				credentials.password
-			)
-			console.log('actions.register', result) */
-			commit('setUser', credentials)
-			// commit('setToken', token)
-			return credentials
+			await API.register({ email, username, password })
+			const user = await API.login(username, password)
+			commit('setUser', user)
 		} catch (error) {
-			commit('setUser', null)
+			commit('setUser', {})
 			throw error
 		}
-	},
-	setToken(/* { commit }, token */) {
-		// console.log('setToken to api', token)
-		// api.updateToken(token)
-		// commit('setToken', token)
 	},
 	logout({ commit }) {
 		commit('logout')
 	},
-	async update(/* { commit, state }, user */) {
-		try {
-			/* const newUser = await api.updateUser(user, state.token)
-			console.log(newUser)
-			commit('updateUser', newUser) */
-		} catch (error) {
-			return error
-		}
+	async update({ commit, state }, user) {
+		const newUser = await API.updateUser(user, state.token)
+		console.log(newUser)
+		commit('updateUser', newUser)
+	},
+
+	async getStatus({ commit }, user) {
+		const { kardex, carga } = await API.getStatus(user)
+		commit('updateKardex', kardex)
+		commit('updateCarga', carga)
 	},
 }
 
@@ -73,6 +76,12 @@ const mutations = {
 	},
 	updateUser(state, user) {
 		state.user = user
+	},
+	updateKardex(state, kardex) {
+		state.kardex = kardex
+	},
+	updateCarga(state, carga) {
+		state.carga = carga
 	},
 }
 
