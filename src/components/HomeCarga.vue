@@ -68,13 +68,13 @@ export default {
 				}),
 				{}
 			)
-			console.log('mapSchedule', this.headersTable, result)
 			return result
 		},
 		parseCarga(carga) {
 			return carga.map((c) => ({
 				...c,
 				key: c.subject.key,
+				subject: c.subject.name,
 				...this.mapSchedule(c.schedule),
 			}))
 		},
