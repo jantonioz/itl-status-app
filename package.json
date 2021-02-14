@@ -16,6 +16,7 @@
     "lodash": "^4.17.20",
     "mobile-device-detect": "^0.4.3",
     "node-rsa": "^1.1.1",
+    "secure-ls": "^1.2.6",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0",
