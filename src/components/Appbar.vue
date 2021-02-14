@@ -44,8 +44,8 @@ export default {
 		toggleDrawer() {
 			return true
 		},
-		logout: async () => {
-			await this.$store.dispatch('user/logout')
+		logout() {
+			this.$store.dispatch('user/logout')
 		},
 	},
 }
