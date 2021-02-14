@@ -44,9 +44,9 @@ export default {
 		toggleDrawer() {
 			return true
 		},
-		logout() {
-			
-		}
+		logout: async () => {
+			await this.$store.dispatch('user/logout')
+		},
 	},
 }
 </script>
