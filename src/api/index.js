@@ -35,14 +35,16 @@ class API {
 
 	async register({ email, username, password }) {
 		try {
-			const {
-				data: { data },
-			} = await this.api.post('/register', {
-				email,
-				username,
-				password,
-			})
-			return data
+			const res = await this.api.post(
+				'/register',
+				{
+					email,
+					username,
+					password,
+				},
+				{ timeout: 60000 }
+			)
+			return res.data.data
 		} catch (error) {
 			throw { code: error.response.status, message: error.response.data }
 		}
@@ -70,7 +72,9 @@ class API {
 		try {
 			const {
 				data: { data },
-			} = await this.api.get(`/users/status/?id=${user._id}&sessionId=${user.sessionId}`)
+			} = await this.api.get(
+				`/users/status/?id=${user._id}&sessionId=${user.sessionId}`
+			)
 			return data
 		} catch (error) {
 			throw { code: error.response.status, message: error.response.data }

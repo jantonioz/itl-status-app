@@ -37,12 +37,18 @@ const actions = {
 			throw error
 		}
 	},
-	async register({ commit }, { email, username, password }) {
+	register: async ({ commit }, { email, username, password }) => {
 		try {
-			await API.register({ email, username, password })
-			const user = await API.login(username, password)
+			const registerRes = await API.register({ email, username, password })
+			console.log(new Date().toISOString(), 'register', registerRes)
+
+			console.log(new Date().toISOString(), 'login', username, password)
+
+			const user = await API.login({ username, password })
+			console.log(new Date().toISOString(), 'register, user', user)
 			commit('setUser', user)
 		} catch (error) {
+			console.log('register', error)
 			commit('setUser', {})
 			throw error
 		}

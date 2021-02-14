@@ -88,17 +88,12 @@ export default {
 		async register() {
 			try {
 				this.validate()
-				const result = await this.$store.dispatch(
+				await this.$store.dispatch(
 					'user/register',
 					this.credentials
 				)
-				console.log('RegisterPage', result)
-				if (!result.user) {
-					console.log('register', result)
-					this.error = result
-				} else {
-					this.$router.push('/')
-				}
+				
+				this.$router.push('/')
 			} catch (error) {
 				return this.error
 			}
