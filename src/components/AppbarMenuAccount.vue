@@ -52,7 +52,22 @@
 						</v-list-item-icon>
 						<v-list-item-title> Profile </v-list-item-title>
 					</v-list-item>
-
+					<v-list-item>
+						<v-select
+							v-model="lang"
+							:items="languages"
+							menu-props="auto"
+							label="Idioma"
+							hide-details
+							append-icon="mdi-web"
+							single-line
+							dense
+							dark
+							outlined
+							color="secondaryAlt"
+						>
+						</v-select>
+					</v-list-item>
 				</v-list-item-group>
 			</v-list>
 		</v-card>
@@ -67,16 +82,32 @@ export default {
 		menu: false,
 		message: false,
 		hints: true,
+		lang: '',
 	}),
 	computed: {
 		...mapGetters('user', {
 			user: 'getUser',
+		}),
+		...mapGetters('lang', {
+			language: 'getLanguage',
+			languages: 'getLanguages',
 		}),
 	},
 	methods: {
 		goTo(url) {
 			if (url !== this.$route.path) this.$router.push(url)
 		},
+	},
+	watch: {
+		language(language) {
+			if (!this.lang) this.lang = language
+		},
+		lang(lang) {
+			this.$store.dispatch('lang/setLanguage', lang)
+		},
+	},
+	mounted() {
+		if (!this.lang && this.language) this.lang = this.language
 	},
 }
 </script>

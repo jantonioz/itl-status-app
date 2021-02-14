@@ -6,6 +6,7 @@ import SecureLS from 'secure-ls'
 const ls = new SecureLS()
 
 import user from './modules/user'
+import lang from './modules/lang'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
 	modules: {
 		user,
+		lang
 	},
 	strict: debug,
 	plugins: [
