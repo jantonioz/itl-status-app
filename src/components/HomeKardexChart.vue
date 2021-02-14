@@ -5,6 +5,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import { headers } from '../constants/kardex.lang'
+
 export default {
 	data: () => ({
 		chartOptions: {
@@ -22,18 +24,42 @@ export default {
 				},
 			},
 		},
+		semester: '',
 	}),
 	computed: {
 		...mapGetters('user', {
 			kardex: 'getKardex',
 		}),
+		...mapGetters('lang', {
+			language: 'getLanguage',
+		}),
+	},
+	mounted() {
+		if (!this.semester && this.language) {
+			this.loadSemesterVal(this.language)
+		}
 	},
 	watch: {
+		language(language) {
+			this.loadSemesterVal(language)
+			this.reloadGraph(this.kardex)
+		},
 		kardex(newKardex) {
-			if (!newKardex || !Array.isArray(newKardex) || !newKardex.length)
+			this.reloadGraph(newKardex)
+		},
+	},
+	methods: {
+		loadSemesterVal(lang) {
+			this.semester = headers[lang.toLowerCase()].find(
+				(e) => e && e.value === 'semester'
+			).text
+		},
+		reloadGraph(newKardex) {
+			if (!newKardex || !Array.isArray(newKardex) || !newKardex.length) {
+				console.log('reloadGrapth', 'invalid kardex', newKardex)
 				return null
+			}
 
-			console.log('newKardex', newKardex)
 			const getContents = (acc, el) => {
 				if (acc[el.semester]) return [...acc[el.semester], el]
 				return [el]
@@ -48,7 +74,9 @@ export default {
 				(key) => semestersObj[key]
 			)
 
-			const xAxis = Object.keys(semestersObj).map((e) => `Semester ${e}`)
+			const xAxis = Object.keys(semestersObj).map(
+				(e) => `${this.semester} ${e}`
+			)
 
 			const data = semestersArr.map((semesterGroup) => {
 				const prom =
@@ -58,10 +86,9 @@ export default {
 			})
 			const minYAxis = Math.floor(data.map((e) => e).sort()[0])
 
-			console.log('series', data, xAxis)
 			this.chartOptions = {
 				yAxis: { min: minYAxis, title: { text: 'Average' } },
-				series: [{ data, colorByPoint: true, name: 'Semester' }],
+				series: [{ data, colorByPoint: true, name: this.semester }],
 				xAxis: { categories: xAxis },
 				zoomType: 'xy',
 			}
@@ -71,8 +98,11 @@ export default {
 </script>
 
 <style>
-.highcharts-title, .highcharts-subtitle, .highcharts-yaxis, .highcharts-axis-title {
-	color: #fff!important;
-  fill: #fff!important;
+.highcharts-title,
+.highcharts-subtitle,
+.highcharts-yaxis,
+.highcharts-axis-title {
+	color: #fff !important;
+	fill: #fff !important;
 }
 </style>

@@ -10,22 +10,6 @@
 						<v-col>
 							<div class="text-h2 mb-2">Kardex</div>
 						</v-col>
-						<v-col cols="1">
-							<v-select
-								v-model="language"
-								:items="languages"
-								menu-props="auto"
-								label="Idioma"
-								hide-details
-								append-icon="mdi-web"
-								single-line
-								dense
-								dark
-								outlined
-								color="secondaryAlt"
-							>
-							</v-select>
-						</v-col>
 					</v-row>
 					<v-data-table
 						:headers="headers"
@@ -45,22 +29,6 @@
 					>
 						<v-col>
 							<div class="text-h2 mb-2">Resumen</div>
-						</v-col>
-						<v-col cols="1">
-							<v-select
-								v-model="language"
-								:items="languages"
-								menu-props="auto"
-								label="Idioma"
-								hide-details
-								append-icon="mdi-web"
-								single-line
-								dense
-								dark
-								outlined
-								color="secondaryAlt"
-							>
-							</v-select>
 						</v-col>
 					</v-row>
 					<HomeKardexChart />
@@ -84,14 +52,16 @@ export default {
 		return {
 			headers: [],
 			kardexItems: [],
-			language: 'ES',
-			languages: ['EN', 'ES'],
+			lang: '',
 		}
 	},
 	computed: {
 		...mapGetters('user', {
 			user: 'getUser',
 			kardex: 'getKardex',
+		}),
+		...mapGetters('lang', {
+			language: 'getLanguage',
 		}),
 	},
 	watch: {
