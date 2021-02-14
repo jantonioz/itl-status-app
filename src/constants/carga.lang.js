@@ -5,6 +5,10 @@ const headers = {
 			value: 'key',
 		},
 		{
+			text: 'Subject',
+			value: 'subject',
+		},
+		{
 			text: 'Group',
 			value: 'group',
 		},
@@ -37,6 +41,10 @@ const headers = {
 		{
 			text: 'Clave',
 			value: 'key',
+		},
+		{
+			text: 'Subject',
+			value: 'subject',
 		},
 		{
 			text: 'Group',
