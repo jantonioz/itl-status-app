@@ -3,9 +3,12 @@
 		<v-container>
 			<v-row justify="center">
 				<v-col cols="12">
-					<v-row justify="center" class="d-flex justify-baseline align-content-end flex-wrap">
+					<v-row
+						justify="center"
+						class="d-flex justify-baseline align-content-end flex-wrap"
+					>
 						<v-col>
-							<div class="text-h2 mb-2">Resumen</div>
+							<div class="text-h2 mb-2">Kardex</div>
 						</v-col>
 						<v-col cols="1">
 							<v-select
@@ -34,6 +37,35 @@
 					</v-data-table>
 				</v-col>
 			</v-row>
+			<v-row justify="center">
+				<v-col cols="12">
+					<v-row
+						justify="center"
+						class="d-flex justify-baseline align-content-end flex-wrap"
+					>
+						<v-col>
+							<div class="text-h2 mb-2">Resumen</div>
+						</v-col>
+						<v-col cols="1">
+							<v-select
+								v-model="language"
+								:items="languages"
+								menu-props="auto"
+								label="Idioma"
+								hide-details
+								append-icon="mdi-web"
+								single-line
+								dense
+								dark
+								outlined
+								color="secondaryAlt"
+							>
+							</v-select>
+						</v-col>
+					</v-row>
+					<HomeKardexChart />
+				</v-col>
+			</v-row>
 		</v-container>
 	</div>
 </template>
@@ -41,9 +73,13 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import HomeKardexChart from '../components/HomeKardexChart'
 import { headers } from '../constants/kardex.lang'
 
 export default {
+	components: {
+		HomeKardexChart,
+	},
 	data() {
 		return {
 			headers: [],
@@ -52,7 +88,6 @@ export default {
 			languages: ['EN', 'ES'],
 		}
 	},
-	components: {},
 	computed: {
 		...mapGetters('user', {
 			user: 'getUser',
