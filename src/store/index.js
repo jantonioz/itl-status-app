@@ -13,5 +13,5 @@ export default new Vuex.Store({
 		user,
 	},
 	strict: debug,
-	plugins: [createPersistedState],
+	plugins: [createPersistedState()],
 })
