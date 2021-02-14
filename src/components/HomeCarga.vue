@@ -10,22 +10,6 @@
 						<v-col>
 							<div class="text-h2 mb-2">Carga</div>
 						</v-col>
-						<v-col cols="1">
-							<v-select
-								v-model="language"
-								:items="languages"
-								menu-props="auto"
-								label="Idioma"
-								hide-details
-								append-icon="mdi-web"
-								single-line
-								dense
-								dark
-								outlined
-								color="secondaryAlt"
-							>
-							</v-select>
-						</v-col>
 					</v-row>
 					<v-data-table
 						:headers="headersTable"
@@ -50,14 +34,15 @@ export default {
 	data: () => ({
 		headersTable: [],
 		cargaItems: [],
-		language: 'ES',
-		languages: ['EN', 'ES'],
 	}),
 	computed: {
 		...mapGetters('user', {
 			user: 'getUser',
 			carga: 'getCarga',
 		}),
+		...mapGetters('lang', {
+			language: 'getLanguage'
+		})
 	},
 	methods: {
 		mapSchedule(schedule) {
