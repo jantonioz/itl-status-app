@@ -45,11 +45,18 @@
 				</v-card>
 			</v-flex>
 		</v-layout>
+		<AuthValidation />
 	</v-container>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import AuthValidation from '../components/AuthValidator'
+
 export default {
+	components: {
+		AuthValidation,
+	},
 	data: () => ({
 		rules: {
 			required: (value) => !!value || 'Required.',
@@ -61,6 +68,11 @@ export default {
 			password: '',
 		},
 	}),
+	computed: {
+		...mapGetters('user', {
+			user: 'getUser',
+	}),
+	},
 	methods: {
 		login: async function() {
 			const user = await this.$store.dispatch('user/login', this.credentials)
@@ -73,6 +85,13 @@ export default {
 			this.$router.push('/register')
 		},
 	},
+	watch: {
+		user(user) {
+			if (user && user.username) {
+				this.$router.push('/')
+			}
+		}
+	}
 }
 </script>
 
