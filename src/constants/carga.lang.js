@@ -43,7 +43,7 @@ const headers = {
 			value: 'key',
 		},
 		{
-			text: 'Subject',
+			text: 'Materia',
 			value: 'subject',
 		},
 		{
