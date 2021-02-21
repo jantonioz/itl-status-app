@@ -8,7 +8,12 @@
 					</v-toolbar>
 					<v-card-text>
 						<v-alert dense outlined type="error" v-if="error">
-							<strong>{{ error.code }} </strong> {{ error.message }}
+							<strong>{{ error.code }} </strong>
+							{{
+								typeof error.message === 'string'
+									? error.message
+									: (error.message.error && error.message.error.message) || 'Error'
+							}}
 						</v-alert>
 						<v-form>
 							<v-text-field
@@ -71,15 +76,20 @@ export default {
 	computed: {
 		...mapGetters('user', {
 			user: 'getUser',
-	}),
+		}),
 	},
 	methods: {
 		login: async function() {
-			const user = await this.$store.dispatch('user/login', this.credentials)
-			console.log('login', user)
-			await this.$store.dispatch('user/getStatus', user)
-			this.$store.user = user
-			this.$router.push('/')
+			try {
+				const user = await this.$store.dispatch('user/login', this.credentials)
+				console.log('login', user)
+				await this.$store.dispatch('user/getStatus', user)
+				this.$store.user = user
+				this.$router.push('/')
+			} catch (error) {
+				console.log(error)
+				this.error = error
+			}
 		},
 		register() {
 			this.$router.push('/register')
@@ -90,8 +100,8 @@ export default {
 			if (user && user.username) {
 				this.$router.push('/')
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 
