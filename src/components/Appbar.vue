@@ -1,9 +1,9 @@
 <template>
 	<v-app-bar app color="primary" dark dense>
-		<v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+		<!-- <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon> -->
 
-		<v-row justify="start">
-			<v-app-bar-title class="ml-5 text-center" style="overflow:unset" dense>
+		<v-row justify="start ml-10">
+			<v-app-bar-title class="ml-10 text-center" style="overflow:unset" dense>
 				{{ title }}
 			</v-app-bar-title>
 		</v-row>
