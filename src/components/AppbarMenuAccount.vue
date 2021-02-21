@@ -45,7 +45,7 @@
 			<v-divider></v-divider>
 
 			<v-list rounded>
-				<v-list-item-group color="green lighten-3">
+				<v-list-item-group color="blue lighten-3">
 					<v-list-item @click.stop="goTo('/profile')">
 						<v-list-item-icon>
 							<v-icon>mdi-account</v-icon>

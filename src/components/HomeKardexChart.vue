@@ -1,11 +1,34 @@
 <template>
-	<highcharts dark :options="chartOptions"></highcharts>
+	<v-row>
+		<v-col>
+			<v-row>
+				<v-col></v-col>
+				<v-col cols="5">
+					<v-select
+						v-model="selectedType"
+						:items="selectItems"
+						item-text="name"
+						item-value="type"
+						menu-props="auto"
+						:label="this.language === 'EN' ? 'Type' : 'Tipo'"
+						single-line
+						dense
+						solo
+						color="secondary"
+					>
+					</v-select>
+				</v-col
+			></v-row>
+			<highcharts dark :options="chartOptions"></highcharts>
+		</v-col>
+	</v-row>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
 import { headers } from '../constants/kardex.lang'
+import { graphLang } from '../constants/graph.lang'
 
 export default {
 	data: () => ({
@@ -25,6 +48,8 @@ export default {
 			},
 		},
 		semester: '',
+		selectItems: [],
+		selectedType: {},
 	}),
 	computed: {
 		...mapGetters('user', {
@@ -37,11 +62,13 @@ export default {
 	mounted() {
 		if (!this.semester && this.language) {
 			this.loadSemesterVal(this.language)
+			this.loadTypeSelect(this.language)
 		}
 	},
 	watch: {
 		language(language) {
 			this.loadSemesterVal(language)
+			this.loadTypeSelect(language)
 			this.reloadGraph(this.kardex)
 		},
 		kardex(newKardex) {
@@ -53,6 +80,10 @@ export default {
 			this.semester = headers[lang.toLowerCase()].find(
 				(e) => e && e.value === 'semester'
 			).text
+		},
+		loadTypeSelect(lang) {
+			this.selectItems = graphLang[lang.toLowerCase()]
+			this.selectedType = this.selectItems[0]
 		},
 		reloadGraph(newKardex) {
 			if (!newKardex || !Array.isArray(newKardex) || !newKardex.length) {
@@ -84,14 +115,20 @@ export default {
 					semesterGroup.length
 				return prom || 0
 			})
-			const minYAxis = Math.floor(data.map((e) => e).sort()[0])
+			// const minYAxis = Math.floor(data.map((e) => e).sort()[0])
 
-			this.chartOptions = {
-				yAxis: { min: minYAxis, title: { text: 'Average' } },
+			const yAxisTitle =
+				graphLang[this.language ? this.language.toLowerCase() : 'en'][0]
+					.yAxisTitle
+			const chartOptions = {
+				yAxis: { min: 70, title: yAxisTitle },
 				series: [{ data, colorByPoint: true, name: this.semester }],
 				xAxis: { categories: xAxis },
 				zoomType: 'xy',
+				...graphLang[this.language.toLowerCase()][0],
 			}
+
+			this.chartOptions = chartOptions
 		},
 	},
 }
