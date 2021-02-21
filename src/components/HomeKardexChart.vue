@@ -142,4 +142,12 @@ export default {
 	color: #fff !important;
 	fill: #fff !important;
 }
+.highcharts-axis-labels > text {
+	color: #fff !important;
+	fill: #fff !important;
+}
+.highcharts-column-series > text {
+	color: #fff !important;
+	fill: #fff !important;
+}
 </style>
