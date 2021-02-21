@@ -33,6 +33,7 @@ export default {
 		validateRoute(path) {
 			if (!path || typeof path !== 'string' || path.length <= 0) return false
 			const normalPath = path.replace(/\//gi, '')
+			if (path === '/') return true
 			const route = routes.find((route) => normalPath.indexOf(route) >= 0)
 			return route
 		},
