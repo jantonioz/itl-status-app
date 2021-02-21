@@ -4,6 +4,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { routes } from '../router/routes'
+
 export default {
 	computed: {
 		...mapGetters('user', {
@@ -17,15 +19,33 @@ export default {
 	},
 	methods: {
 		checkUser(user) {
-			console.log('checkUser', user)
-			if (!user || !user.username) {
+			// console.log('checkUser', user)
+			const isOnKnownRoute = this.validateRoute(this.$route.path)
+			
+			if (user && !user.username) {
 				this.$router.push('/login')
-			} else if (this.$route.path.indexOf('login')) {
-				this.$router.push('/')
 			}
-			console.log('checkUser', true, this.$route.path)
+			
+			if (!isOnKnownRoute) {
+				this.$router.push('/login')
+			}
 		},
+		validateRoute(path) {
+			if (!path || typeof path !== 'string' || path.length <= 0) return false
+			const normalPath = path.replace(/\//gi, '')
+			const route = routes.find(route => normalPath.indexOf(route))
+			return route
+		}
 	},
+	mounted() {
+		if (this.user && !this.user.username) {
+			this.$router.push('/login')
+		} 
+		else this.checkUser(this.user)
+	},
+	created() {
+		this.checkUser(this.user)
+	}
 }
 </script>
 
