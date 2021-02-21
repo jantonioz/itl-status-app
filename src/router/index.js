@@ -13,31 +13,51 @@ const routes = [
 		path: '/',
 		name: 'Home',
 		component: Home,
+		meta: { requireAuth: true },
 	},
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
-  }, 
-  {
-    path: '*',
-    component: NotFound
-  }
+	{
+		path: '/login',
+		name: 'Login',
+		component: Login,
+		meta: { requireAuth: false },
+	},
+	{
+		path: '/register',
+		name: 'Register',
+		component: Register,
+		meta: { requireAuth: false },
+	},
+	{
+		path: '/profile',
+		name: 'Profile',
+		component: Profile,
+		meta: { requireAuth: true },
+	},
+	{
+		path: '*',
+		component: NotFound,
+		meta: { requireAuth: true },
+	},
 ]
 
 const router = new VueRouter({
 	routes,
-  mode: 'history'
+	mode: 'history',
+})
+
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(rec => rec.meta.requireAuth)
+  const authenticated = router.app.$store.getters['user/getUser'].username 
+  if (requiresAuth && authenticated) {
+    next()
+  } else if (requiresAuth && !authenticated) {
+    next('/login')
+  } else if (!requiresAuth && authenticated) {
+    next('/')
+  } else if (!requiresAuth && !authenticated) {
+    next()
+  }
 })
 
 export default router

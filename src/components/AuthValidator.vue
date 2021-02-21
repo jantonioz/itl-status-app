@@ -4,7 +4,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { routes } from '../router/routes'
+/* import { routes } from '../router/routes' */
 
 export default {
 	computed: {
@@ -12,7 +12,7 @@ export default {
 			user: 'getUser',
 		}),
 	},
-	watch: {
+	/* watch: {
 		user(user) {
 			this.checkUser(user)
 		},
@@ -49,7 +49,7 @@ export default {
 	},
 	created() {
 		this.checkUser(this.user)
-	},
+	}, */
 }
 </script>
 
