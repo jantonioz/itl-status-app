@@ -87,7 +87,7 @@ export default {
 				this.$store.user = user
 				this.$router.push('/')
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 				this.error = error
 			}
 		},
