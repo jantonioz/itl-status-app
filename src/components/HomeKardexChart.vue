@@ -115,13 +115,13 @@ export default {
 					semesterGroup.length
 				return prom || 0
 			})
-			// const minYAxis = Math.floor(data.map((e) => e).sort()[0])
+			const minYAxis = Math.floor(data.map((e) => e).sort()[0]) - 10
 
 			const yAxisTitle =
 				graphLang[this.language ? this.language.toLowerCase() : 'en'][0]
 					.yAxisTitle
 			const chartOptions = {
-				yAxis: { min: 70, title: yAxisTitle },
+				yAxis: { min: minYAxis, title: yAxisTitle },
 				series: [{ data, colorByPoint: true, name: this.semester }],
 				xAxis: { categories: xAxis },
 				zoomType: 'xy',
