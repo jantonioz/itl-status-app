@@ -53,15 +53,18 @@ class API {
 	async updateUser(user) {
 		try {
 			const credentials = encrypt(user, user.publicKey)
-			const {
-				data: { data },
-			} = await this.api.put(`/users`, {
+			if (!this.token) this.updateToken(null)
+			const bodyData = {
 				id: user._id,
 				email: user.email,
 				username: user.username,
 				...credentials,
 				sessionId: this.token,
-			})
+			}
+			console.log(bodyData)
+			const {
+				data: { data },
+			} = await this.api.put(`/users`, bodyData)
 			return data
 		} catch (error) {
 			throw { code: error.response.status, message: error.response.data }
